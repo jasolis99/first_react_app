@@ -1,18 +1,28 @@
-import { useState } from 'react';
+import React from 'react';
 import './App.css'
-import ListOfGifs from './components/ListOfGifs'
+import Home from './pages/Home'
+import SearchResults from './pages/SearchResults'
+import Detail from './pages/Detail'
+import StaticContext from './context/StaticContext'
+
 import {Link, Route} from 'wouter'
+import { GifsContextProvider } from './context/GifsContext';
+
 function App() {
-  const [keyword, setKeyword] = useState('Freddie Mercury')
+
   return (
-    <div className="App">
-      <section className="App-header">
-        <h1>Gifs recomendados</h1>
-        <Link to="/gif/freddie%20mercury">Freddie Mercury</Link>
-        <Link to="/gif/spiderman">Spiderman</Link>
-        <Route path="/gif/:keyword" component = {ListOfGifs}/>
-      </section>
-    </div>
+    <StaticContext.Provider value={{name: 'midudev', suscribe: true}}>
+      <div className="App">
+        <section className="App-header">
+          <Link to="/"><h1>Home</h1></Link>
+          <GifsContextProvider>
+            <Route component = {Home} path="/"/>
+            <Route component = {SearchResults} path="/search/:keyword"/>
+            <Route component = {Detail} path="/gif/:id"/>
+          </GifsContextProvider>
+        </section>
+      </div>
+    </StaticContext.Provider>
   )
 }
 
