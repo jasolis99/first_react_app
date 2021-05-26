@@ -13,7 +13,7 @@ function App() {
   return (
     <StaticContext.Provider value={{name: 'midudev', suscribe: true}}>
       <div className="App">
-        <section className="App-header">
+        <section className="App-content">
           <Link to="/"><h1>Home</h1></Link>
           <GifsContextProvider>
             <Route component = {Home} path="/"/>

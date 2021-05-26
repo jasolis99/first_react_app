@@ -1,23 +1,33 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
-export default function useNearScreen ({distance = '200px'} = {}) {
+export default function useNearScreen({ distance = '200px', externalRef, once = true } = {}) {
 
     const [isNearScreen, setIsNearScreen] = useState(false)
-    const lazyRef = useRef()
+    const fromRef = useRef()
     useEffect(() => {
+        let observer
+        const element = externalRef ? externalRef.current : fromRef.current
         const onChange = (entries, observer) => {
             const el = entries[0]
-            console.log(el);
             if (el.isIntersecting) {
                 setIsNearScreen(true)
-                observer.disconnect()
+                once && observer.disconnect()
+            }
+            else {
+                !once && setIsNearScreen(false)
             }
         }
-        const observer = new IntersectionObserver(onChange, {
-            rootMargin: distance
+        Promise.resolve(
+            typeof IntersectionObserver !== 'undefined'
+                ? IntersectionObserver
+                : import('intersection-observer')
+        ).then(() => {
+            observer = new IntersectionObserver(onChange, {
+                rootMargin: distance
+            })
+            if (element) observer.observe(element)
         })
-        observer.observe(lazyRef.current)
-        return () => observer.disconnect()
+        return () => observer && observer.disconnect()
     })
-    return {isNearScreen, lazyRef}
+    return { isNearScreen, fromRef }
 }

@@ -1,8 +1,9 @@
 import React from 'react'
 import Gif from 'components/Gif'
+import './styles.css'
 
 export default function ListOfGifs({ gifs }) {
-    return <div>
+    return <div className='ListOfGifs'>
         {
             gifs.map(({ id, title, url }) =>
                 <Gif

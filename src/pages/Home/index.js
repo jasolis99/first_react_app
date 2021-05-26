@@ -26,11 +26,17 @@ export default function Home() {
                     value={keyword} 
                 />
             </form>
-            <h3>Última búsqueda</h3>
-            <ListOfGifs gifs={gifs} />
-            <h3>Gifs populares</h3>
-            <div>
-                <TrendingSearches/>
+            <div className="App-main">
+                <div className="App-title">
+                    <h3>Última búsqueda</h3>
+                    <ListOfGifs gifs={gifs} />
+                </div>
+                <div className="App-category">
+                    <h3>Gifs populares</h3>
+                    <div>
+                        <TrendingSearches/>
+                    </div>
+                </div>
             </div>
         </>
     )
