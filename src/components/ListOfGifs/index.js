@@ -1,9 +1,13 @@
 import React from 'react'
 import Gif from 'components/Gif'
+import Masonry from 'react-masonry-css'
 import './styles.css'
 
 export default function ListOfGifs({ gifs }) {
-    return <div className='ListOfGifs'>
+
+    return <Masonry breakpointCols={3}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column">
         {
             gifs.map(({ id, title, url }) =>
                 <Gif
@@ -13,6 +17,7 @@ export default function ListOfGifs({ gifs }) {
                     url={url}
                 />
             )
+
         }
-    </div>
+    </Masonry>
 }

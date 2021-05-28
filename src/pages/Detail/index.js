@@ -1,12 +1,37 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import Gif from 'components/Gif';
-import GifsContext from 'context/GifsContext'
+import useSingleGif from 'hooks/useSingleGif';
+import Spinner from 'components/Spinner';
+import { Redirect } from 'wouter';
+import { Helmet } from 'react-helmet'
 
-export default function Detail ({ params }) {
-    const {gifs} = useContext(GifsContext)
-    console.log(gifs);
-    const gif = gifs.find(
-        singleGif => singleGif.id === params.id 
+export default function Detail({ params }) {
+
+    const { gif, isLoading, isError } = useSingleGif({ id: params.id })
+
+    const title = gif ? decodeURI(gif.title): ''
+
+    if (isLoading) {
+        return (
+            <>
+                <Helmet>
+                    <title> Cargando ...</title>
+                </Helmet>
+                <Spinner />
+            </>
+        )
+    }
+    
+    if (isError) return <Redirect to="/404" />
+
+    if (!gif) return null
+
+    return (
+        <>
+        <Helmet>
+            <title>{ title } | Giffy</title>
+        </Helmet>
+         <Gif {...gif} />
+        </>
     )
-    return <Gif {...gif} />
 }
