@@ -20,6 +20,7 @@ export default function Home() {
         <>
             <Helmet>
                 <title>{title} | Giffy </title>
+                <link rel="canonical" href="https://giffysearcher.com" />
             </Helmet>
             <header className="o-header">
                 <SearchForm onSubmit={handleSubmit} />
